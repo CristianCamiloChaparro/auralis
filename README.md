@@ -4,6 +4,18 @@
 
 Plataforma web para descargar y convertir video y audio de **YouTube**, de otras fuentes compatibles y de **archivos propios**. Interfaz oscura/clara, progreso real del procesamiento y backend con cola de trabajos.
 
+## Usarla en tu computador (Windows, la forma fácil)
+
+1. Instala **Node.js** (versión LTS) desde <https://nodejs.org> y **Python** desde <https://www.python.org/downloads/>. En el instalador de Python marca **"Add Python to PATH"**.
+2. En esta página pulsa el botón verde **Code** → **Download ZIP** y descomprímelo.
+3. Abre la carpeta y haz doble clic en **`Iniciar Auralis.bat`**.
+
+La primera vez tarda unos minutos porque instala lo necesario. Después se abre sola en el navegador (<http://localhost:3000>). Deja abierta la ventana negra mientras uses la app; ciérrala para apagarla.
+
+Si falta Node.js o Python, el archivo lo avisa y ofrece instalarlo. Cada vez que se abre actualiza yt-dlp, así que si YouTube deja de funcionar, basta con cerrar y volver a abrir `Iniciar Auralis.bat`.
+
+Si Windows muestra "Windows protegió su PC", pulsa **Más información** → **Ejecutar de todas formas**: aparece con cualquier archivo descargado de internet.
+
 ## Puesta en marcha
 
 Requisitos: Node.js 20.6 o superior y, para YouTube, Python 3.10 o superior con yt-dlp.
