@@ -7,7 +7,7 @@ import { FFMPEG } from './ffmpeg.js';
 
 /**
  * Integración con yt-dlp (https://github.com/yt-dlp/yt-dlp).
- * Orden de búsqueda: YTDLP_PATH → `yt-dlp` en el PATH → `python -m yt_dlp`.
+ * Orden de búsqueda: YTDLP_PATH → `yt-dlp` en el PATH → `python -m yt_dlp` → `py -3 -m yt_dlp`.
  */
 
 function tryVersion(cmd, args) {
@@ -28,7 +28,12 @@ function tryVersion(cmd, args) {
 async function locate() {
   const candidates = [];
   if (process.env.YTDLP_PATH) candidates.push([process.env.YTDLP_PATH, []]);
-  candidates.push(['yt-dlp', []], ['python', ['-m', 'yt_dlp']], ['python3', ['-m', 'yt_dlp']]);
+  candidates.push(
+    ['yt-dlp', []],
+    ['python', ['-m', 'yt_dlp']],
+    ['python3', ['-m', 'yt_dlp']],
+    ['py', ['-3', '-m', 'yt_dlp']], // lanzador de Python en Windows
+  );
   for (const [cmd, args] of candidates) {
     const version = await tryVersion(cmd, args);
     if (version) return { cmd, args, version };
