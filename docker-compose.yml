@@ -1,0 +1,11 @@
+services:
+  auralis:
+    build: .
+    ports:
+      - "3000:3000"
+    env_file:
+      - path: .env
+        required: false
+    tmpfs:
+      - /tmp/auralis:size=6g,uid=1000,gid=1000
+    restart: unless-stopped

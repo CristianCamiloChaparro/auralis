@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Auralis — Descarga y convierte video y audio</title>
+  <meta name="description" content="Descarga y convierte video y audio de tus propios archivos y de fuentes que permiten la descarga: MP4, MP3, WAV y FLAC con progreso real.">
+  <meta name="color-scheme" content="dark light">
+  <link rel="icon" href="/img/logo.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+  <script src="/js/theme-init.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Saltar al contenido</a>
+
+  <svg class="sprite" aria-hidden="true" width="0" height="0">
+    <defs>
+      <linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#a78bfa"/><stop offset="1" stop-color="#38bdf8"/></linearGradient>
+    </defs>
+    <g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <symbol id="i-paste" viewBox="0 0 24 24"><rect x="8" y="3" width="8" height="4" rx="1.2"/><path d="M8 5H6.5A1.5 1.5 0 0 0 5 6.5v13A1.5 1.5 0 0 0 6.5 21h11a1.5 1.5 0 0 0 1.5-1.5v-13A1.5 1.5 0 0 0 17.5 5H16"/><path d="M9 12h6M9 16h4"/></symbol>
+      <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+      <symbol id="i-scan" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></symbol>
+      <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11M7.5 11 12 15.5 16.5 11M5 20h14"/></symbol>
+      <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V5M7.5 9 12 4.5 16.5 9M5 20h14"/></symbol>
+      <symbol id="i-film" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="14" rx="2.5"/><path d="m10 9.5 5 2.5-5 2.5z"/></symbol>
+      <symbol id="i-video" viewBox="0 0 24 24"><rect x="3" y="6" width="12.5" height="12" rx="2.5"/><path d="m15.5 10.5 5.5-3v9l-5.5-3"/></symbol>
+      <symbol id="i-music" viewBox="0 0 24 24"><path d="M9 18V6l10-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="16" r="2.5"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+      <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 4 2.8 19.5h18.4z"/><path d="M12 10v4.5M12 17.2v.1"/></symbol>
+      <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.6v.1"/></symbol>
+      <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></symbol>
+      <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+      <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.5"/><path d="M5 20c.8-3.6 3.6-5.5 7-5.5s6.200 1.900 7 5.500"/></symbol>
+      <symbol id="i-screen" viewBox="0 0 24 24"><rect x="3" y="4.500" width="18" height="12" rx="2"/><path d="M8.500 20h7M12 16.500V20"/></symbol>
+      <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4.500 7h15M9.500 7V4.500h5V7M6.500 7l.8 12.500h9.400L17.500 7M10 11v5M14 11v5"/></symbol>
+      <symbol id="i-redo" viewBox="0 0 24 24"><path d="M4 12a8 8 0 0 1 13.700-5.600L20 8.500M20 4v4.500h-4.500M20 12a8 8 0 0 1-13.700 5.600L4 15.500M4 20v-4.500h4.500"/></symbol>
+      <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.700 0l3-3a4 4 0 0 0-5.700-5.700l-1 1M14 10a4 4 0 0 0-5.700 0l-3 3a4 4 0 0 0 5.700 5.700l1-1"/></symbol>
+      <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 4.500 6v5.500c0 4.500 3 8 7.500 9.500 4.500-1.500 7.500-5 7.500-9.500V6z"/><path d="m9 12 2.200 2.200L15 10.500"/></symbol>
+      <symbol id="i-license" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M14.500 9.500a3.500 3.500 0 1 0 0 5"/></symbol>
+      <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    </g>
+  </svg>
+
+  <div class="backdrop" aria-hidden="true"><span class="orb orb-a"></span><span class="orb orb-b"></span><span class="orb orb-c"></span><span class="grid"></span></div>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="#/inicio" aria-label="Auralis, inicio">
+        <img src="/img/logo.svg" alt="" width="34" height="34">
+        <span>Auralis</span>
+      </a>
+      <nav class="nav" id="nav" aria-label="Principal">
+        <a href="#/inicio" data-route="inicio">Inicio</a>
+        <a href="#/como-funciona" data-route="como-funciona">Cómo funciona</a>
+        <a href="#/formatos" data-route="formatos">Formatos</a>
+        <a href="#/faq" data-route="faq">Preguntas</a>
+        <a href="#/historial" data-route="historial">Historial</a>
+        <a href="#/configuracion" data-route="configuracion">Configuración</a>
+      </nav>
+      <div class="topbar-actions">
+        <button class="icon-btn" id="theme-toggle" type="button" aria-label="Cambiar a modo claro">
+          <svg class="ico ico-sun"><use href="#i-sun"/></svg><svg class="ico ico-moon"><use href="#i-moon"/></svg>
+        </button>
+        <button class="icon-btn nav-toggle" id="nav-toggle" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav">
+          <svg class="ico"><use href="#i-menu"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <!-- INICIO -->
+    <section class="view" id="view-inicio" data-view="inicio">
+      <div class="hero">
+        <p class="eyebrow"><span class="dot"></span>Procesamiento real · sin anuncios · sin registro</p>
+        <h1>Descarga tus <span class="grad">videos favoritos</span></h1>
+        <p class="lead">Pega un enlace de YouTube u otra fuente compatible, o sube tu propio archivo, y obtén video o audio en el formato y la calidad que necesites.</p>
+
+        <form class="analyzer" id="analyzer" novalidate>
+          <label class="sr-only" for="url">Enlace del video</label>
+          <div class="field" id="field">
+            <svg class="ico field-ico"><use href="#i-link"/></svg>
+            <input id="url" name="url" type="url" inputmode="url" autocomplete="off" spellcheck="false" placeholder="Pega aquí el enlace del video…" aria-describedby="url-hint">
+            <button class="icon-btn ghost" id="clear-btn" type="button" aria-label="Limpiar el campo" hidden><svg class="ico"><use href="#i-x"/></svg></button>
+            <button class="icon-btn ghost" id="paste-btn" type="button" aria-label="Pegar desde el portapapeles" title="Pegar"><svg class="ico"><use href="#i-paste"/></svg></button>
+            <button class="btn primary" id="analyze-btn" type="submit"><svg class="ico"><use href="#i-scan"/></svg><span>Analizar</span></button>
+          </div>
+          <p class="hint" id="url-hint" role="status" aria-live="polite"></p>
+        </form>
+
+        <div class="alt-row">
+          <span class="alt-sep">o</span>
+          <button class="btn subtle" id="upload-btn" type="button"><svg class="ico"><use href="#i-upload"/></svg>Sube tu propio archivo</button>
+          <input id="file-input" type="file" accept="video/*,audio/*,.mkv,.flac,.ogv,.opus" hidden>
+        </div>
+        <ul class="source-chips" aria-label="Fuentes compatibles">
+          <li>YouTube</li><li>Archivos propios</li><li>Internet Archive</li><li>Wikimedia Commons</li><li>PeerTube</li>
+        </ul>
+      </div>
+
+      <div class="stage" id="stage" aria-live="polite"></div>
+
+      <div class="features">
+        <article class="card feature"><span class="feature-ico"><svg class="ico"><use href="#i-film"/></svg></span><h3>Video con audio</h3><p>MP4 desde 144p hasta 4K. Solo verás las resoluciones que el original realmente tiene.</p></article>
+        <article class="card feature"><span class="feature-ico"><svg class="ico"><use href="#i-music"/></svg></span><h3>Solo audio</h3><p>MP3, WAV o FLAC, con niveles de calidad ajustados al audio de origen.</p></article>
+        <article class="card feature"><span class="feature-ico"><svg class="ico"><use href="#i-shield"/></svg></span><h3>Respetuoso por diseño</h3><p>Funciona con tus archivos y con fuentes que permiten expresamente la descarga.</p></article>
+      </div>
+    </section>
+
+    <!-- CÓMO FUNCIONA -->
+    <section class="view" id="view-como-funciona" data-view="como-funciona" hidden>
+      <header class="page-head"><h2>Cómo funciona</h2><p>Cuatro pasos, sin recargar la página y con progreso real en todo momento.</p></header>
+      <ol class="steps">
+        <li class="card step"><span class="step-n">1</span><h3>Pega el enlace o sube tu archivo</h3><p>Aceptamos enlaces de fuentes con descarga permitida y archivos de video o audio de tu dispositivo.</p></li>
+        <li class="card step"><span class="step-n">2</span><h3>Analizamos el contenido</h3><p>El servidor inspecciona el archivo real: duración, resolución, códecs y pistas disponibles.</p></li>
+        <li class="card step"><span class="step-n">3</span><h3>Elige formato y calidad</h3><p>Video con audio, solo video o solo audio. Verás el tamaño estimado antes de empezar.</p></li>
+        <li class="card step"><span class="step-n">4</span><h3>Procesa y guarda</h3><p>Sigue el porcentaje real del procesamiento, cancela cuando quieras y guarda el archivo al terminar.</p></li>
+      </ol>
+
+      <h3 class="section-title">Fuentes compatibles</h3>
+      <div class="table-wrap card">
+        <table>
+          <thead><tr><th>Fuente</th><th>Qué puedes hacer</th><th>Por qué</th></tr></thead>
+          <tbody>
+            <tr><td><strong>YouTube</strong></td><td><span class="tag ok">Descargar y convertir</span></td><td>Videos públicos, Shorts y YouTube Music. No se pueden descargar directos en curso, videos privados, solo para miembros o con restricción de edad.</td></tr>
+            <tr><td><strong>Archivos propios</strong></td><td><span class="tag ok">Descargar y convertir</span></td><td>Es tu contenido: súbelo y conviértelo a cualquier formato.</td></tr>
+            <tr><td><strong>Internet Archive</strong></td><td><span class="tag ok">Descargar y convertir</span></td><td>Biblioteca pública que ofrece sus archivos para descarga.</td></tr>
+            <tr><td><strong>Wikimedia Commons</strong></td><td><span class="tag ok">Descargar y convertir</span></td><td>Todo su contenido tiene licencias libres.</td></tr>
+            <tr><td><strong>PeerTube</strong></td><td><span class="tag ok">Si el autor lo permite</span></td><td>Cada autor decide si habilita la descarga; lo comprobamos por su API.</td></tr>
+            <tr><td><strong>Enlaces directos</strong></td><td><span class="tag ok">Hosts autorizados</span></td><td>Archivos alojados en dominios que el administrador haya autorizado. <span id="direct-hosts"></span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- FORMATOS -->
+    <section class="view" id="view-formatos" data-view="formatos" hidden>
+      <header class="page-head"><h2>Formatos y calidad</h2><p>Qué significa cada opción y cuándo conviene elegirla.</p></header>
+      <div class="format-grid">
+        <article class="card format"><span class="fmt-badge">MP4</span><h3>Video universal</h3><p>Video H.264 con audio AAC. Se reproduce en prácticamente cualquier dispositivo. Si el original ya está en este formato y eliges su resolución, se copia sin recomprimir: más rápido y sin pérdida.</p></article>
+        <article class="card format"><span class="fmt-badge">MP3</span><h3>Audio compacto</h3><p>Audio comprimido compatible con todo. 320 kbps ofrece la mayor fidelidad; 128 kbps ocupa menos de la mitad. No se ofrecen tasas superiores a las del audio original.</p></article>
+        <article class="card format"><span class="fmt-badge">WAV</span><h3>Audio sin comprimir</h3><p>PCM de 16 bits, ideal para editar. Archivos grandes: unos 10 MB por minuto en estéreo.</p></article>
+        <article class="card format"><span class="fmt-badge">FLAC</span><h3>Sin pérdida, más ligero</h3><p>Conserva exactamente el audio pero ocupa menos que WAV. Si el origen ya estaba comprimido, FLAC no recupera calidad: solo evita perder más.</p></article>
+      </div>
+
+      <h3 class="section-title">Resoluciones de video</h3>
+      <div class="table-wrap card">
+        <table>
+          <thead><tr><th>Resolución</th><th>Nombre</th><th>Uso recomendado</th><th>Tamaño aprox. por minuto</th></tr></thead>
+          <tbody>
+            <tr><td>144p – 240p</td><td>Baja</td><td>Conexiones lentas, vista previa</td><td>1 – 3 MB</td></tr>
+            <tr><td>360p – 480p</td><td>Estándar</td><td>Móviles, ahorro de espacio</td><td>5 – 8 MB</td></tr>
+            <tr><td>720p</td><td>HD</td><td>Equilibrio entre calidad y peso</td><td>≈ 18 MB</td></tr>
+            <tr><td>1080p</td><td>Full HD</td><td>Pantallas grandes, edición</td><td>≈ 33 MB</td></tr>
+            <tr><td>1440p</td><td>2K</td><td>Monitores de alta densidad</td><td>≈ 65 MB</td></tr>
+            <tr><td>2160p</td><td>4K</td><td>Máximo detalle</td><td>≈ 130 MB</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note"><svg class="ico"><use href="#i-info"/></svg>Los tamaños que ves antes de empezar son estimaciones. El tamaño exacto se muestra cuando termina el procesamiento. Nunca se ofrece una resolución mayor que la del original, porque ampliar no añade calidad.</p>
+    </section>
+
+    <!-- FAQ -->
+    <section class="view" id="view-faq" data-view="faq" hidden>
+      <header class="page-head"><h2>Preguntas frecuentes</h2><p>Lo esencial sobre el servicio, sus límites y tu privacidad.</p></header>
+      <div class="faq">
+        <details class="card"><summary>¿Puedo descargar videos de YouTube?</summary><div class="faq-body"><p>Sí. Pega el enlace de un video público, un Short o una canción de YouTube Music y elige el formato. Verás solo las resoluciones que YouTube tiene para ese video, desde 144p hasta 4K.</p><p>No es posible descargar directos en curso, estrenos que aún no empezaron, videos privados, exclusivos para miembros o con restricción de edad.</p></div></details>
+        <details class="card"><summary>¿Por qué 1440p y 4K tardan más?</summary><div class="faq-body"><p>YouTube solo ofrece esas resoluciones en VP9 o AV1. Para entregarte un MP4 compatible con cualquier dispositivo hay que recodificarlas a H.264, lo que consume más tiempo. Hasta 1080p normalmente se copian sin recodificar y son mucho más rápidas.</p></div></details>
+        <details class="card"><summary>¿De dónde sí puedo descargar?</summary><div class="faq-body"><p>De YouTube, Internet Archive, Wikimedia Commons, instancias de PeerTube cuando el autor habilitó la descarga, enlaces directos de dominios autorizados y, por supuesto, de tus propios archivos.</p></div></details>
+        <details class="card"><summary>¿El progreso es real?</summary><div class="faq-body"><p>Sí. La primera fase refleja los bytes transferidos desde la fuente y la segunda, el avance que informa el codificador mientras procesa tu archivo. No hay porcentajes simulados.</p></div></details>
+        <details class="card"><summary>¿Cuáles son los límites?</summary><div class="faq-body"><p id="faq-limits">Cargando límites del servidor…</p></div></details>
+        <details class="card"><summary>¿Qué pasa con mis archivos?</summary><div class="faq-body"><p>Se guardan de forma temporal solo para procesarlos y entregártelos. <span id="faq-ttl"></span> Si cancelas una operación, sus archivos se eliminan al instante.</p></div></details>
+        <details class="card"><summary>¿Guardan mi historial?</summary><div class="faq-body"><p>No en el servidor. El historial es opcional, está desactivado por defecto y, si lo activas en Configuración, se guarda únicamente en tu navegador.</p></div></details>
+        <details class="card"><summary>¿Por qué no aparece 1080p o 4K?</summary><div class="faq-body"><p>Solo mostramos resoluciones iguales o inferiores a la del archivo original. Si el original es 720p, ofrecer 1080p sería ampliarlo sin ganar calidad.</p></div></details>
+        <details class="card"><summary>¿Puedo usar lo que descargo como quiera?</summary><div class="faq-body"><p>Depende de la licencia de cada contenido. Mostramos la licencia cuando la fuente la informa; respétala y da crédito al autor cuando corresponda.</p></div></details>
+      </div>
+    </section>
+
+    <!-- HISTORIAL -->
+    <section class="view" id="view-historial" data-view="historial" hidden>
+      <header class="page-head with-action"><div><h2>Historial de descargas</h2><p>Tus operaciones recientes, guardadas solo en este navegador.</p></div><button class="btn subtle danger" id="history-clear" type="button" hidden><svg class="ico"><use href="#i-trash"/></svg>Borrar todo</button></header>
+      <div id="history-body"></div>
+    </section>
+
+    <!-- CONFIGURACIÓN -->
+    <section class="view" id="view-configuracion" data-view="configuracion" hidden>
+      <header class="page-head"><h2>Configuración</h2><p>Tus preferencias se guardan en este navegador.</p></header>
+      <div class="settings card">
+        <div class="setting">
+          <div><h3 id="s-theme">Tema</h3><p>Elige la apariencia de la interfaz.</p></div>
+          <div class="segmented" role="radiogroup" aria-labelledby="s-theme" id="set-theme">
+            <button type="button" role="radio" data-value="dark">Oscuro</button>
+            <button type="button" role="radio" data-value="light">Claro</button>
+          </div>
+        </div>
+        <div class="setting">
+          <div><h3 id="s-mode">Tipo de descarga preferido</h3><p>La pestaña que se abre primero tras analizar.</p></div>
+          <div class="segmented" role="radiogroup" aria-labelledby="s-mode" id="set-mode">
+            <button type="button" role="radio" data-value="av">Video + audio</button>
+            <button type="button" role="radio" data-value="audio">Audio</button>
+            <button type="button" role="radio" data-value="video">Video</button>
+          </div>
+        </div>
+        <div class="setting">
+          <div><h3 id="s-history">Guardar historial</h3><p>Registra en este navegador las operaciones completadas.</p></div>
+          <button class="switch" type="button" role="switch" aria-checked="false" aria-labelledby="s-history" id="set-history"><span></span></button>
+        </div>
+        <div class="setting">
+          <div><h3 id="s-notify">Notificaciones del sistema</h3><p>Avisa cuando un archivo esté listo aunque estés en otra pestaña.</p></div>
+          <button class="switch" type="button" role="switch" aria-checked="false" aria-labelledby="s-notify" id="set-notify"><span></span></button>
+        </div>
+        <div class="setting">
+          <div><h3 id="s-motion">Reducir animaciones</h3><p>Minimiza los efectos de movimiento.</p></div>
+          <button class="switch" type="button" role="switch" aria-checked="false" aria-labelledby="s-motion" id="set-motion"><span></span></button>
+        </div>
+      </div>
+      <div class="card server-info" id="server-info"></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p><strong>Auralis</strong> · Respeta los derechos de autor: descarga solo contenido que tengas derecho a usar.</p>
+    <p class="footer-links"><a href="#/como-funciona">Fuentes compatibles</a><a href="#/faq">Preguntas frecuentes</a></p>
+  </footer>
+
+  <div class="toasts" id="toasts" role="region" aria-label="Notificaciones" aria-live="polite"></div>
+  <div id="modal-root"></div>
+
+  <script type="module" src="/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+# Despliegue en Render (https://render.com) desde GitHub.
+# Render construye el Dockerfile, que ya incluye ffmpeg y yt-dlp.
+services:
+  - type: web
+    name: auralis
+    runtime: docker
+    plan: free
+    healthCheckPath: /api/config
+    autoDeploy: true
+    envVars:
+      - key: TRUST_PROXY
+        value: "1"
+      # El plan gratuito tiene poca CPU y 512 MB de RAM: un trabajo a la vez
+      # y límites moderados para que el servicio no se quede sin recursos.
+      - key: MAX_CONCURRENT_JOBS
+        value: "1"
+      - key: MAX_JOBS_PER_CLIENT
+        value: "1"
+      - key: MAX_DURATION_MIN
+        value: "60"
+      - key: MAX_SOURCE_MB
+        value: "1024"
+      - key: MAX_UPLOAD_MB
+        value: "300"
