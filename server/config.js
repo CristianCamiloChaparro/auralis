@@ -23,7 +23,8 @@ const MB = 1024 * 1024;
 export const config = {
   port: num('PORT', 3000),
   trustProxy: process.env.TRUST_PROXY ?? false,
-  tmpDir: process.env.TMP_DIR || path.join(os.tmpdir(), 'auralis'),
+  // Una carpeta por puerto: dos instancias en el mismo equipo no se pisan los temporales.
+  tmpDir: process.env.TMP_DIR || path.join(os.tmpdir(), 'auralis', `puerto-${num('PORT', 3000)}`),
 
   // Límites
   maxDurationSec: num('MAX_DURATION_MIN', 180) * 60,

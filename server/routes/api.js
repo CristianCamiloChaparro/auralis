@@ -47,7 +47,7 @@ export function apiRouter({ binaries }) {
 
   router.post(
     '/analyze',
-    limiter(1, 20),
+    limiter(1, 40),
     express.json({ limit: '4kb' }),
     wrap(async (req, res) => {
       const analysis = await analyzeUrl(req.body?.url);
@@ -72,7 +72,7 @@ export function apiRouter({ binaries }) {
 
   router.post(
     '/jobs',
-    limiter(10, 15),
+    limiter(10, 120),
     express.json({ limit: '4kb' }),
     wrap(async (req, res) => {
       const { analysisId, mode, format, quality } = req.body ?? {};

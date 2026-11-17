@@ -61,6 +61,12 @@ La descarga de YouTube usa [yt-dlp](https://github.com/yt-dlp/yt-dlp). Ten en cu
 
 ## Opciones de descarga
 
+En el inicio hay dos modos:
+
+- **Un enlace**: analiza un enlace, muestra su información y eliges exactamente la opción.
+- **Varios enlaces**: pegas muchos enlaces (uno por línea), eliges una vez tipo, formato y calidad, y se procesan en orden, uno detrás de otro. Cada elemento muestra su progreso real y, al terminar, su botón **Guardar** (o se guarda solo si activas *Guardar cada archivo automáticamente*). Se pueden añadir enlaces mientras la lista avanza, cancelar, reintentar, pausar después del actual y guardar todos al final. Si un enlace no tiene la calidad elegida se usa la más cercana disponible, y si uno falla la lista sigue con el siguiente. Los duplicados (incluido el mismo video de YouTube escrito de otra forma) se descartan.
+
+
 - **Video con audio**: MP4 (H.264 + AAC). Resoluciones de 144p a 2160p, nunca superiores a la del original. Si el original ya es H.264 y se elige su resolución, se copia sin recomprimir.
 - **Solo audio**: MP3 (96–320 kbps, limitado por el bitrate de origen), WAV (PCM 16 bits) y FLAC.
 - **Solo video**: MP4 sin pista de audio.

@@ -82,6 +82,11 @@
         <h1>Descarga tus <span class="grad">videos favoritos</span></h1>
         <p class="lead">Pega un enlace de YouTube u otra fuente compatible, o sube tu propio archivo, y obtén video o audio en el formato y la calidad que necesites.</p>
 
+        <div class="segmented mode-toggle" role="radiogroup" aria-label="Modo de descarga" id="mode-toggle">
+          <button type="button" role="radio" data-value="single" aria-checked="true">Un enlace</button>
+          <button type="button" role="radio" data-value="batch" aria-checked="false">Varios enlaces</button>
+        </div>
+
         <form class="analyzer" id="analyzer" novalidate>
           <label class="sr-only" for="url">Enlace del video</label>
           <div class="field" id="field">
@@ -99,6 +104,8 @@
           <button class="btn subtle" id="upload-btn" type="button"><svg class="ico"><use href="#i-upload"/></svg>Sube tu propio archivo</button>
           <input id="file-input" type="file" accept="video/*,audio/*,.mkv,.flac,.ogv,.opus" hidden>
         </div>
+        <section class="batch" id="batch" aria-label="Lista de descargas" hidden></section>
+
         <ul class="source-chips" aria-label="Fuentes compatibles">
           <li>YouTube</li><li>Archivos propios</li><li>Internet Archive</li><li>Wikimedia Commons</li><li>PeerTube</li>
         </ul>
@@ -171,6 +178,7 @@
       <header class="page-head"><h2>Preguntas frecuentes</h2><p>Lo esencial sobre el servicio, sus límites y tu privacidad.</p></header>
       <div class="faq">
         <details class="card"><summary>¿Puedo descargar videos de YouTube?</summary><div class="faq-body"><p>Sí. Pega el enlace de un video público, un Short o una canción de YouTube Music y elige el formato. Verás solo las resoluciones que YouTube tiene para ese video, desde 144p hasta 4K.</p><p>No es posible descargar directos en curso, estrenos que aún no empezaron, videos privados, exclusivos para miembros o con restricción de edad.</p></div></details>
+        <details class="card"><summary>¿Puedo descargar varias canciones de una vez?</summary><div class="faq-body"><p>Sí. En el inicio elige <strong>Varios enlaces</strong>, pega todos los enlaces (uno por línea o varios a la vez) y elige una sola vez el tipo, el formato y la calidad. Al pulsar <strong>Iniciar descargas</strong> se procesan en orden: cuando termina uno aparece su botón de guardar (o se guarda solo, si lo activas) y empieza el siguiente.</p><p>Puedes seguir añadiendo enlaces mientras la lista avanza, cancelar o reintentar cualquiera, y si uno falla la lista continúa con los demás. Si un enlace no tiene la calidad elegida, se usa la más cercana disponible.</p></div></details>
         <details class="card"><summary>¿Por qué 1440p y 4K tardan más?</summary><div class="faq-body"><p>YouTube solo ofrece esas resoluciones en VP9 o AV1. Para entregarte un MP4 compatible con cualquier dispositivo hay que recodificarlas a H.264, lo que consume más tiempo. Hasta 1080p normalmente se copian sin recodificar y son mucho más rápidas.</p></div></details>
         <details class="card"><summary>¿De dónde sí puedo descargar?</summary><div class="faq-body"><p>De YouTube, Internet Archive, Wikimedia Commons, instancias de PeerTube cuando el autor habilitó la descarga, enlaces directos de dominios autorizados y, por supuesto, de tus propios archivos.</p></div></details>
         <details class="card"><summary>¿El progreso es real?</summary><div class="faq-body"><p>Sí. La primera fase refleja los bytes transferidos desde la fuente y la segunda, el avance que informa el codificador mientras procesa tu archivo. No hay porcentajes simulados.</p></div></details>

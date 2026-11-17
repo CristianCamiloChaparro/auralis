@@ -1,4 +1,5 @@
 import { api } from './api.js';
+import { initBatch } from './batch.js';
 import { analyzeFromHistory, initHome } from './home.js';
 import { store } from './store.js';
 import { confirmModal, toast } from './ui.js';
@@ -162,6 +163,7 @@ async function loadServerInfo() {
 
 initSettings();
 initHome();
+initBatch();
 loadServerInfo();
 
 $('nav-toggle').addEventListener('click', () => {

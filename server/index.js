@@ -12,8 +12,13 @@ import { cancelAll, isAnalysisInUse, sweepJobs } from './services/jobs.js';
 
 const publicDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'public');
 
-// Arranque limpio: cualquier temporal de una ejecución anterior se descarta.
-await fsp.rm(config.tmpDir, { recursive: true, force: true });
+// Arranque limpio: se descartan temporales de una ejecución anterior.
+// Si algún archivo sigue bloqueado (Windows), se avisa y se continúa.
+try {
+  await fsp.rm(config.tmpDir, { recursive: true, force: true, maxRetries: 3 });
+} catch (err) {
+  console.warn(`⚠  No se pudieron borrar algunos temporales antiguos (${err.code}). Se reintentará más tarde.`);
+}
 await fsp.mkdir(config.tmpDir, { recursive: true });
 
 const binaries = await checkBinaries();
