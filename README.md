@@ -135,7 +135,7 @@ Copia `.env.example` como `.env`. Las variables principales:
 | `MAX_DURATION_MIN` | 180 | Duración máxima |
 | `MAX_SOURCE_MB` / `MAX_UPLOAD_MB` | 2048 / 1024 | Tamaños máximos |
 | `MAX_CONCURRENT_JOBS` | 2 | Procesos ffmpeg simultáneos |
-| `FILE_TTL_MIN` | 30 | Minutos que se conserva un resultado |
+| `FILE_TTL_MIN` | 240 | Minutos que se conserva un resultado en el servidor |
 
 ## Despliegue
 

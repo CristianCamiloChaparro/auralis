@@ -33,7 +33,7 @@ export const config = {
   maxConcurrentJobs: num('MAX_CONCURRENT_JOBS', 2),
   maxJobsPerClient: num('MAX_JOBS_PER_CLIENT', 2),
   maxQueue: num('MAX_QUEUE', 20),
-  fileTtlMs: num('FILE_TTL_MIN', 30) * 60 * 1000,
+  fileTtlMs: num('FILE_TTL_MIN', 240) * 60 * 1000,
   analysisTtlMs: num('ANALYSIS_TTL_MIN', 60) * 60 * 1000,
 
   // Identificación ante las fuentes. Algunas (p. ej. Wikimedia) piden incluir un contacto.

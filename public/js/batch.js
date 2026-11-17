@@ -39,6 +39,36 @@ const RESTRICTIONS = {
   ytdlp_missing: 'La descarga de YouTube no está activa en este servidor.',
 };
 const RETRYABLE = new Set(['too_many_jobs', 'rate_limited', 'server_busy']);
+const STORE_KEY = 'auralis:batch-items';
+const KEEP = ['id', 'url', 'key', 'source', 'status', 'title', 'thumb', 'choice', 'jobId', 'filename', 'bytes', 'expiresAt', 'saved', 'error', 'saveWhenDone'];
+
+/** Guarda la lista en este navegador para que sobreviva a recargas y cierres. */
+function persist() {
+  try {
+    localStorage.setItem(STORE_KEY, JSON.stringify(items.map((i) => Object.fromEntries(KEEP.map((k) => [k, i[k] ?? null])))));
+  } catch {
+    /* almacenamiento lleno o bloqueado: la lista sigue funcionando en memoria */
+  }
+}
+
+function restore() {
+  let saved = [];
+  try {
+    saved = JSON.parse(localStorage.getItem(STORE_KEY)) ?? [];
+  } catch {
+    saved = [];
+  }
+  for (const it of saved) {
+    if (!it?.url) continue;
+    // Lo que estaba en curso al cerrar la página se vuelve a poner en espera.
+    if (ACTIVE.has(it.status)) Object.assign(it, { status: 'pending', jobId: null });
+    items.push({ ...it, percent: it.status === 'done' ? 100 : 0 });
+    seq = Math.max(seq, Number(it.id) || 0);
+  }
+}
+
+const isExpired = (item) => item.status === 'done' && item.expiresAt && Date.now() > item.expiresAt;
+const timeOf = (ts) => new Date(ts).toLocaleTimeString('es', { hour: '2-digit', minute: '2-digit' });
 const ACTIVE = new Set(['analyzing', 'waiting', 'queued', 'downloading', 'processing']);
 
 /* ───────── Selección de formato ───────── */
@@ -72,7 +102,13 @@ export function initBatch() {
   });
   setView(sessionGet('auralis:view') === 'batch' ? 'batch' : 'single');
 
+  restore();
   buildPanel();
+  if (items.some((i) => i.status === 'pending')) {
+    toast('Se recuperó tu lista de descargas. Pulsa "Iniciar descargas" para continuar.', 'info', 5000);
+  }
+  // Refresca cada minuto los avisos de "disponible hasta" / "caducado".
+  setInterval(() => !running && items.some((i) => i.status === 'done') && renderList(), 60_000);
 
   window.addEventListener('beforeunload', (e) => {
     if (running || items.some((i) => ACTIVE.has(i.status))) {
@@ -267,7 +303,9 @@ function statusText(item) {
     case 'queued': return 'En cola del servidor';
     case 'downloading': return item.percent ? `Descargando · ${item.percent.toFixed(0)} %` : 'Conectando con la fuente…';
     case 'processing': return `Convirtiendo · ${item.percent.toFixed(0)} %`;
-    case 'done': return `Listo · ${formatBytes(item.bytes)}`;
+    case 'done':
+      if (isExpired(item)) return 'Caducado en el servidor · al pulsar Guardar se descarga de nuevo';
+      return `Listo · ${formatBytes(item.bytes)}${item.expiresAt ? ` · disponible hasta las ${timeOf(item.expiresAt)}` : ''}`;
     case 'cancelled': return 'Cancelado';
     case 'error': return item.error ?? 'Error';
     default: return '';
@@ -285,8 +323,13 @@ function renderItem(item) {
   const actions = [];
   if (item.status === 'done') {
     actions.push(
-      h('a', { class: 'btn primary small', href: api.fileUrl(item.jobId), download: item.filename, onclick: () => { item.saved = true; setTimeout(() => updateItem(item), 0); } },
-        icon(item.saved ? 'check' : 'download'), h('span', {}, item.saved ? 'Guardado' : 'Guardar')),
+      h('a', {
+        class: 'btn primary small', href: api.fileUrl(item.jobId), download: item.filename,
+        onclick: (e) => {
+          e.preventDefault();
+          saveOrRedo(item);
+        },
+      }, icon(item.saved ? 'check' : 'download'), h('span', {}, item.saved ? 'Guardado' : 'Guardar')),
     );
   } else if (item.status === 'error' || item.status === 'cancelled') {
     actions.push(h('button', { class: 'icon-btn', type: 'button', title: 'Reintentar', 'aria-label': 'Reintentar', onclick: () => retry(item) }, icon('redo')));
@@ -329,6 +372,7 @@ function updateItem(item) {
     old.replaceWith(fresh);
   }
   renderFooter();
+  persist();
 }
 
 function renderList() {
@@ -336,6 +380,7 @@ function renderList() {
   els.empty.hidden = items.length > 0;
   els.list.hidden = items.length === 0;
   renderFooter();
+  persist();
 }
 
 function renderFooter() {
@@ -359,6 +404,9 @@ function renderFooter() {
   } else {
     if (done.length) {
       btns.push(h('button', { class: 'btn subtle', type: 'button', onclick: saveAll }, icon('download'), `Guardar todos (${done.length})`));
+    }
+    if (items.length) {
+      btns.push(h('button', { class: 'btn subtle', type: 'button', onclick: copyLinks }, icon('link'), 'Copiar enlaces'));
     }
     if (items.some((i) => !ACTIVE.has(i.status) && i.status !== 'pending')) {
       btns.push(h('button', { class: 'btn subtle', type: 'button', onclick: clearFinished }, 'Limpiar terminados'));
@@ -404,6 +452,16 @@ async function cancelAll() {
   renderList();
 }
 
+async function copyLinks() {
+  const text = items.map((i) => i.url).join('\n');
+  try {
+    await navigator.clipboard.writeText(text);
+    toast(`${items.length} ${items.length === 1 ? 'enlace copiado' : 'enlaces copiados'} al portapapeles.`, 'success', 3000);
+  } catch {
+    toast('No se pudo copiar al portapapeles.', 'error');
+  }
+}
+
 function clearFinished() {
   for (let k = items.length - 1; k >= 0; k--) {
     if (['done', 'error', 'cancelled'].includes(items[k].status)) items.splice(k, 1);
@@ -421,12 +479,50 @@ function triggerSave(item) {
 
 async function saveAll() {
   const done = items.filter((i) => i.status === 'done');
+  let redo = 0;
   for (const item of done) {
+    if (isExpired(item) || !(await fileExists(item))) {
+      requeue(item);
+      redo++;
+      continue;
+    }
     triggerSave(item);
     updateItem(item);
     // Pequeña pausa: los navegadores ignoran varias descargas simultáneas.
     await new Promise((r) => setTimeout(r, 700));
   }
+  if (redo) {
+    toast(`${redo} ${redo === 1 ? 'archivo había caducado y se descargará' : 'archivos habían caducado y se descargarán'} de nuevo; se guardarán solos al terminar.`, 'info', 6000);
+    runQueue();
+  }
+}
+
+async function fileExists(item) {
+  if (!item.jobId) return false;
+  try {
+    const res = await fetch(api.fileUrl(item.jobId), { method: 'HEAD', cache: 'no-store' });
+    return res.ok;
+  } catch {
+    return false;
+  }
+}
+
+/** Vuelve a poner un elemento en espera y lo guarda automáticamente al terminar. */
+function requeue(item) {
+  Object.assign(item, { status: 'pending', percent: 0, error: null, jobId: null, saved: false, saveWhenDone: true });
+  updateItem(item);
+}
+
+/** Guarda el archivo si sigue en el servidor; si caducó, lo vuelve a procesar. */
+async function saveOrRedo(item) {
+  if (!isExpired(item) && (await fileExists(item))) {
+    triggerSave(item);
+    updateItem(item);
+    return;
+  }
+  requeue(item);
+  toast('Ese archivo había caducado en el servidor. Se descarga de nuevo y se guardará solo al terminar.', 'info', 5000);
+  runQueue();
 }
 
 /* ───────── Procesamiento en orden ───────── */
@@ -505,7 +601,8 @@ async function processItem(item) {
 }
 
 function onDone(item, j, a) {
-  if (cfg().autoSave) triggerSave(item);
+  if (cfg().autoSave || item.saveWhenDone) triggerSave(item);
+  item.saveWhenDone = false;
   toast(`Listo: ${item.title}`, 'success', 2500);
   store.addHistory({
     title: a.title,
